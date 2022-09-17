@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import java.util.Stack;
 
-class 用两个栈实现队列{
+class 用两个栈实现队列 {
     /**
      * 用两个栈实现队列
      * <p>
