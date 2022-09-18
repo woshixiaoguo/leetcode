@@ -16,15 +16,41 @@ public class 反转链表 {
         ListNode(int x) { val = x; }
     }
 
+    // 迭代解法
     public ListNode reverseList(ListNode head) {
-
+        ListNode prev = null;
+        ListNode curr = head;
+        while(curr != null){
+            ListNode next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
     }
+
+    // 递归解法
+    public ListNode reverseList2(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode newHead = reverseList2(head.next);
+        head.next.next = head;
+        head.next = null;
+        return newHead;
+    }
+
+
 
     @Test
     public void test(){
         ListNode list = new ListNode(2);
         list.next = new ListNode(3);
-        System.out.println(list.val);
-        System.out.println(list.next.val);
+
+        ListNode result = reverseList(list);
+        while(result != null){
+            System.out.println(result.val);
+            result = result.next;
+        }
     }
 }
