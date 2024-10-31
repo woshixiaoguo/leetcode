@@ -1,5 +1,7 @@
 package interview_classic_150;
 
+import java.util.Arrays;
+
 import org.junit.Test;
 
 /**
@@ -34,6 +36,11 @@ import org.junit.Test;
 public class H指数 {
 
     public int hIndex(int[] citations) {
+        /**
+         * 查找不满足引用次数的论文数
+         * 达到一定数量时，降低引用次数
+         */
+
         int max = citations.length;
         int l = max;
         while (max != 0) {
@@ -53,11 +60,74 @@ public class H指数 {
         return max;
     }
 
+    // 排序 时间 O(nlogn) 空间O(logn)
+    public int hIndex2(int[] citations) {
+        Arrays.sort(citations);
+        int max = 0, i = citations.length - 1;
+        while (i >= 0 && citations[i] > max) {
+            max++;
+            i--;
+        }
+        return max;
+
+    }
+
+    // 计数排序 时间 O(n) 空间O(n)
+    public int hIndex3(int[] citations) {
+        /**
+         * 创建一个数组用于保存相同引用次数的论文有几篇
+         * 然后反向遍历，查询篇数大于引用数的零界点
+         */
+        int n = citations.length, tot = 0;
+        int[] counter = new int[n + 1];
+        for (int i = 0; i < n; i++) {
+            if (citations[i] >= n) {
+                counter[n]++;
+            } else {
+                counter[citations[i]]++;
+            }
+        }
+        for (int i = n; i >= 0; i--) {
+            tot += counter[i];
+            if (tot >= i) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    // 二分搜索 时间O(nlogn) 空间O(1)
+    public int hIndex4(int[] citations) {
+        /**
+         * 二分的是 h 的值，不是数组下标
+         */
+        int left = 0, right = citations.length;
+        int mid = 0, cnt = 0;
+        while (left < right) {
+            // +1 防止死循环
+            mid = (left + right + 1) >> 1;
+            cnt = 0;
+            for (int i = 0; i < citations.length; i++) {
+                if (citations[i] >= mid) {
+                    cnt++;
+                }
+            }
+            if (cnt >= mid) {
+                // 要找的答案在 [mid,right] 区间内
+                left = mid;
+            } else {
+                // 要找的答案在 [0,mid) 区间内
+                right = mid - 1;
+            }
+        }
+        return left;
+    }
+
     @Test
     public void test() {
         int[] citations = { 3, 0, 6, 1, 5 };
         int[] citations2 = { 1, 3, 1 };
-        int ans = hIndex(citations2);
+        int ans = hIndex4(citations);
         System.out.println(ans);
 
     }
