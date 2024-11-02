@@ -41,7 +41,7 @@ public class 跳跃游戏II {
         int index = nums.length - 1; // 最后一位坐标
         if (index == 0)
             return 0;
-        System.out.println("index: " + index);
+        // System.out.println("index: " + index);
         int i;
         int keypoint = index - 1;
         for (i = keypoint; i >= 0; i--) {
@@ -58,13 +58,48 @@ public class 跳跃游戏II {
         return step;
     }
 
+    // 贪心算法 时间O(n^2) 空间O(1) 12ms
+    // 和上面的方法一样找到可以到达最后一位的最靠前的坐标
+    // 但是正序寻找，上面是逆序寻找
+    public int jump2(int[] nums) {
+        int index = nums.length - 1;
+        int step = 0;
+        while (index > 0) {
+            for (int i = 0; i < index; i++) {
+                if (nums[i] + i >= index) {
+                    index = i;
+                    step++;
+                    break;
+                }
+            }
+        }
+        return step;
+    }
+
+    // 正向查找可到达的最大位置 时间O(n) 空间O(1) 1ms
+    // 在每个点的跳跃边界内，找到跳得最远的那个作为下一个边界
+    public int jump3(int[] nums) {
+        int index = nums.length - 1;
+        int boundary = 0;
+        int step = 0;
+        int max = 0;
+        for (int i = 0; i < index; i++) {
+            max = Math.max(nums[i] + i, max);
+            if (i == boundary) {
+                boundary = max;
+                step++;
+            }
+        }
+        return step;
+    }
+
     @Test
     public void test() {
         int[] nums = { 2, 3, 1, 1, 4 };
         int[] nums2 = { 2, 3, 0, 1, 4 };
         int[] nums3 = { 0 };
         int[] nums4 = { 1, 2, 3 };
-        int ans = jump(nums4);
+        int ans = jump3(nums3);
         System.out.println(ans);
 
     }
