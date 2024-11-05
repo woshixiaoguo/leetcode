@@ -54,7 +54,6 @@ public class 加油站 {
     public int canCompleteCircuit(int[] gas, int[] cost) {
         if (Arrays.stream(gas).sum() < Arrays.stream(cost).sum())
             return -1;
-        // int left = 0, right = 0;
         int remain = 0;
         int min = Integer.MAX_VALUE; // 不可以设为0 不然最低点在最后时会失效
         int ans = 0;
@@ -66,6 +65,47 @@ public class 加油站 {
             }
         }
         return ans == gas.length - 1 ? 0 : ans + 1;
+    }
+
+    // 贪心
+    public int canCompleteCircuit2(int[] gas, int[] cost) {
+        int n = gas.length;
+        int i = 0;
+        while (i < n) {
+            int sumOfGas = 0, sumOfCost = 0;
+            int cnt = 0;
+            while (cnt < n) {
+                int j = (i + cnt) % n;
+                sumOfGas += gas[j];
+                sumOfCost += cost[j];
+                if (sumOfCost > sumOfGas) {
+                    break;
+                }
+                cnt++;
+            }
+            if (cnt == n) {
+                return i;
+            } else {
+                i = i + cnt + 1;
+            }
+        }
+        return -1;
+    }
+
+    public int canCompleteCircuit3(int[] gas, int[] cost) {
+        int len = gas.length;
+        int spare = 0;
+        int minSpare = Integer.MAX_VALUE;
+        int minIndex = 0;
+
+        for (int i = 0; i < len; i++) {
+            spare += gas[i] - cost[i];
+            if (spare < minSpare) {
+                minSpare = spare;
+                minIndex = i;
+            }
+        }
+        return spare < 0 ? -1 : (minIndex + 1) % len;
     }
 
     @Test
@@ -82,6 +122,5 @@ public class 加油站 {
 
         int ans = canCompleteCircuit(gas4, cost4);
         System.out.println(ans);
-
     }
 }
