@@ -40,13 +40,13 @@ public class 除自身以外数组的乘积 {
         int[] left = new int[l];
         int[] right = new int[l];
         left[0] = 1;
-        right[l-1] = 1;
-        for (int i = 0; i < l-1; i++) {
-            left[i+1] = nums[i] * left[i];
+        right[l - 1] = 1;
+        for (int i = 0; i < l - 1; i++) {
+            left[i + 1] = nums[i] * left[i];
         }
 
-        for (int i = l-1; i > 0; i--) {
-            right[i-1] = nums[i] * right[i];
+        for (int i = l - 1; i > 0; i--) {
+            right[i - 1] = nums[i] * right[i];
         }
         for (int i = 0; i < l; i++) {
             nums[i] = left[i] * right[i];
@@ -54,15 +54,32 @@ public class 除自身以外数组的乘积 {
         return nums;
     }
 
+    // 空间复杂度 O(1) 输出数组不算进空间复杂度
+    public int[] productExceptSelf2(int[] nums) {
+        int l = nums.length;
+        int[] ans = new int[l];
+        ans[0] = 1;
+
+        for (int i = 0; i < l - 1; i++) {
+            ans[i + 1] = nums[i] * ans[i];
+        }
+
+        int R = 1;
+        for (int i = l - 1; i >= 0; i--) {
+            ans[i] *= R;
+            R *= nums[i];
+        }
+        return ans;
+    }
+
     @Test
     public void test() {
-        int[] nums = {-1,1,0,-3,3};
-        int[] nums2 = {1,2,3,4};
+        int[] nums = { -1, 1, 0, -3, 3 };
+        int[] nums2 = { 1, 2, 3, 4 };
 
-        int[] ans = productExceptSelf(nums);
+        int[] ans = productExceptSelf2(nums);
         for (int i = 0; i < ans.length; i++) {
             System.out.println(ans[i]);
         }
-
     }
 }
