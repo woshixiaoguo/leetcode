@@ -2,6 +2,8 @@ package interview_classic_150;
 
 import org.junit.Test;
 
+import ds.ListNode;
+
 /**
  * 82 删除排序链表中的重复元素interview_classic_150
  * 

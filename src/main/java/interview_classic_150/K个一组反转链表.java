@@ -2,6 +2,8 @@ package interview_classic_150;
 
 import org.junit.Test;
 
+import ds.ListNode;
+
 /**
  * 25 K个一组反转链表
  *

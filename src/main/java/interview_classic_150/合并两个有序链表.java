@@ -34,6 +34,8 @@ package interview_classic_150;
 
 import org.junit.Test;
 
+import ds.ListNode;
+
 public class 合并两个有序链表 {
 
     // 0ms 100.00% 41.48MB 57.85%
