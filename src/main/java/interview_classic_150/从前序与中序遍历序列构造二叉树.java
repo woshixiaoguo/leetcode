@@ -65,11 +65,11 @@ public class 从前序与中序遍历序列构造二叉树 {
         int index = indexMap.get(preorder[preorder_root]);
 
         // 建立根节点
-        TreeNode root = new TreeNode(index);
+        TreeNode root = new TreeNode(preorder[preorder_root]);
         // 左子树节点数
         int ltree = index - is;
 
-        // (ps,ps+ltree) 先序遍历中 根节点的左子树节点 (is,index-1) 中序遍历中 根节点的左子树节点
+        // (ps+1,ps+ltree) 先序遍历中 根节点的左子树节点 (is,index-1) 中序遍历中 根节点的左子树节点
         root.left = build(preorder, inorder, ps + 1, ps + ltree, is, index - 1);
         // (ps+ltree+1,pe) 先序遍历中 根节点的右子树节点 (index+1,ie) 中序遍历中 根节点的右子树节点
         root.right = build(preorder, inorder, ps + ltree + 1, pe, index + 1, ie);
