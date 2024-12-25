@@ -2,54 +2,51 @@ package ds;
 
 import java.util.LinkedList;
 
-public class TreeNode {
-
+public class Node {
     public int val;
-    public TreeNode left;
-    public TreeNode right;
+    public Node left;
+    public Node right;
+    public Node next;
 
-    public TreeNode() {
+    public Node() {
     }
 
-    public TreeNode(int val) {
-        this.val = val;
+    public Node(int _val) {
+        val = _val;
     }
 
-    TreeNode(int val, TreeNode left, TreeNode right) {
-        this.val = val;
-        this.left = left;
-        this.right = right;
+    public Node(int _val, Node _left, Node _right, Node _next) {
+        val = _val;
+        left = _left;
+        right = _right;
+        next = _next;
     }
 
-    public static TreeNode arrToNode(Object[] arr) {
-        LinkedList<TreeNode> deque = new LinkedList<TreeNode>();
-        TreeNode head = new TreeNode();
+    public static Node arrToNode(Object[] arr) {
+        LinkedList<Node> deque = new LinkedList<Node>();
+        Node head = new Node();
         for (int i = 0; i < arr.length; i++) {
             Object e = arr[i];
-            TreeNode node;
+            Node node;
             if (e != null) {
                 if (deque.isEmpty()) {
-                    node = new TreeNode(Integer.parseInt(String.valueOf(e)));
+                    node = new Node(Integer.parseInt(String.valueOf(e)));
                     head = node;
                     // System.out.println("head");
                 } else {
                     node = deque.removeFirst();
-                    // System.out.println("node");
-                    // System.out.println("e: " + e);
                     node.val = Integer.parseInt(String.valueOf(e));
                     // node = new TreeNode(Integer.parseInt(String.valueOf(e)));
-                    // System.out.println("leaf: " + node.val);
+                    // System.out.println("leaf: " + node.getVal());
                 }
 
                 if (2 * i + 1 < arr.length && arr[2 * i + 1] != null) {
-                    TreeNode left = new TreeNode();
+                    Node left = new Node();
                     node.left = left;
-                    // System.out.println("left");
                 }
                 if (2 * i + 2 < arr.length && arr[2 * i + 2] != null) {
-                    TreeNode right = new TreeNode();
+                    Node right = new Node();
                     node.right = right;
-                    // System.out.println("right");
                 }
                 // TreeNode left = node.left;
                 // TreeNode right = node.right;
@@ -62,19 +59,14 @@ public class TreeNode {
                 // System.out.println("size: " + deque.size());
             } else {
                 deque.removeFirst();
-                deque.add(null);
-                deque.add(null);
                 // System.out.print("null ");
                 // System.out.println("size: " + deque.size());
             }
-            // System.out.println();
-            // System.out.println("size: " + deque.size());
-
         }
         return head;
     }
 
-    public static void print(TreeNode node) {
+    public static void print(Node node) {
         if (node == null) {
             System.out.println("null");
         } else {
@@ -83,4 +75,11 @@ public class TreeNode {
             print(node.right);
         }
     }
-}
+
+    public static void printNext(Node node) {
+        if (node != null) {
+            System.out.println(node.val);
+            printNext(node.next);
+        }
+    }
+};
